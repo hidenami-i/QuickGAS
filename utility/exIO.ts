@@ -1,6 +1,9 @@
 import { ExNumber } from "./exNumber";
 import { ExError } from "./exError";
 
+/**
+ * IO extension class.
+ */
 export class ExIO {
 
     /**

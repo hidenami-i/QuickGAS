@@ -1,7 +1,7 @@
 import { ExString } from "./exString";
 
 /**
- * Extension class for Error type.
+ * Error extension class.
  */
 export class ExError {
 
