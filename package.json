@@ -1,0 +1,32 @@
+{
+  "name": "QuickGAS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hidenami-i/Kundalini-GAS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hidenami-i/Kundalini-GAS/issues"
+  },
+  "homepage": "https://github.com/hidenami-i/Kundalini-GAS#readme",
+  "devDependencies": {
+    "@types/google-apps-script": "^1.0.7",
+    "prettier": "^1.19.1",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "underscore": "^1.9.1",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "moment": "^2.24.0"
+  }
+}

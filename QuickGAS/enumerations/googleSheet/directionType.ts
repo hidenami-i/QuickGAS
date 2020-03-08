@@ -1,0 +1,4 @@
+enum DirectioType {
+    Vertical,
+    Horizontal
+}

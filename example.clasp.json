@@ -1,0 +1,9 @@
+{
+  "scriptId": "<YOUR APP SCRIPT ID>",
+  "rootDir": "<ROOT DIR>",
+  "filePushOrder": [
+    "dist/core/quick-repository/database.ts",
+    "dist/core/quick-repository/entityBase.ts",
+    "dist/core/quick-repository/repositoryBase.ts"
+  ]
+}
