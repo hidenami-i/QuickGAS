@@ -1,11 +1,10 @@
 import Spreadsheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
-import Range = GoogleAppsScript.Spreadsheet.Range;
-import { ExString } from "../utility/exString";
+import {ExString} from "../utility/exString";
 
 /**
  * Google Sheet Extension class.
- * 
+ *
  * TODO
  * 1. sort sheet
  * 2. row height pretty
@@ -13,7 +12,7 @@ import { ExString } from "../utility/exString";
  * 4. alignment
  */
 export class ExGoogleSheet {
-    
+
     /**
      * Gets spread sheet by spread sheet id.
      * current active spreadSheet if targetSpreadSheetId parameter is null; otherwise target SpreadSheet.
@@ -44,8 +43,8 @@ export class ExGoogleSheet {
 
     /**
      * Copy target sheet to target SpreadSheet.
-     * @param {Sheet} targetSheet 
-     * @param {Spreadsheet} targetSpreadSheet 
+     * @param {Sheet} targetSheet
+     * @param {Spreadsheet} targetSpreadSheet
      * @param {string} newSheetName target sheet name if newSheetName parameter is null or empty, otherwise new sheet name.
      */
     public static CopyTo(targetSheet: Sheet, targetSpreadSheet: Spreadsheet, newSheetName: string = "") {
@@ -57,8 +56,8 @@ export class ExGoogleSheet {
 
     /**
      * Creates sheet url.
-     * @param {string} spreadSheetId 
-     * @param {Sheet} sheet 
+     * @param {string} spreadSheetId
+     * @param {Sheet} sheet
      */
     public static createSheetUrl(spreadSheetId: string, sheet: Sheet): string {
         return "https://docs.google.com/spreadsheets/d/" + spreadSheetId + "/edit#gid=" + sheet.getSheetId();

@@ -1,6 +1,9 @@
 import {ExError} from "../utility/exError";
-import SpreadSheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
-import Form = GoogleAppsScript.Forms.Form;
+import GoogleForm = GoogleAppsScript.Forms.Form;
+import GoogleSpreadSheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
+import DriveFolder = GoogleAppsScript.Drive.Folder;
+import DriveFile = GoogleAppsScript.Drive.File;
+import {ExString} from "../utility/exString";
 
 /**
  * GoogleDrive extension class.
@@ -12,18 +15,10 @@ export class ExGoogleDrive {
      * @param {string} spreadSheetName
      * @param {string} driveFolderId
      */
-    public static createSpreadSheet(spreadSheetName: string, driveFolderId: string): SpreadSheet {
-        let driveFile = Drive.Files?.insert({
-            'title': spreadSheetName,
-            'mimeType': DriveMimeType.SpreadSheet,
-            'parents': [{'id': driveFolderId}]
-        });
-
-        ExError.throwIfUndefined(driveFile);
-        ExError.throwIfUndefined(driveFile?.id);
-        let spreadSheetId = driveFile?.id || "";
-
-        return SpreadsheetApp.openById(spreadSheetId);
+    public static createSpreadSheet(spreadSheetName: string, driveFolderId: string): GoogleSpreadSheet {
+        let spreadsheet: GoogleSpreadSheet = SpreadsheetApp.create(spreadSheetName);
+        this.create(spreadsheet.getId(), driveFolderId);
+        return spreadsheet;
     }
 
     /**
@@ -31,17 +26,9 @@ export class ExGoogleDrive {
      * @param {string} formTitle
      * @param {string} driveFolderId
      */
-    public static createForm(formTitle: string, driveFolderId: string): Form {
-        let form = FormApp.create(formTitle);
-        let formFile = DriveApp.getFileById(form.getId());
-        let driveFolder = DriveApp.getFolderById(driveFolderId);
-        driveFolder.addFile(formFile);
-        DriveApp.getRootFolder().removeFile(formFile);
-
-        // ExError.throwIfUndefined(driveFile);
-        // ExError.throwIfUndefined(driveFile?.id);
-        // let formId = driveFile?.id || "";
-
+    public static createForm(formTitle: string, driveFolderId: string): GoogleForm {
+        let form: GoogleForm = FormApp.create(formTitle);
+        this.create(form.getId(), driveFolderId);
         return form;
     }
 
@@ -58,6 +45,24 @@ export class ExGoogleDrive {
             DriveApp.removeFile(file);
             folder.removeFile(file);
         }
+    }
+
+    /**
+     * Creates drive file on GoogleDrive.
+     * @param {string} driveFileId
+     * @param {string} driveFolderId
+     */
+    private static create(driveFileId: string, driveFolderId: string) {
+        if (ExString.isNullOrEmpty(driveFileId) || ExString.isNullOrEmpty(driveFolderId)) {
+            ExError.throwIfNull("driveFileId or driveFolderId is null or empty.");
+        }
+
+        let driveFile: DriveFile = DriveApp.getFileById(driveFileId);
+        ExError.throwIfNullOrUndefined(driveFile);
+        let driveFolder: DriveFolder = DriveApp.getFolderById(driveFolderId);
+        ExError.throwIfNullOrUndefined(driveFolder);
+        driveFolder.addFile(driveFile);
+        DriveApp.getRootFolder().removeFile(driveFile);
     }
 
 }
