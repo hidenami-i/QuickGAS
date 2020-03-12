@@ -12,14 +12,6 @@ export class ExDate {
     }
 
     /**
-     * Gets now date.
-     * @return {Date} now date.
-     */
-    public static getDate(): number {
-        return this.now().getDate() + 1;
-    }
-
-    /**
      * Gets last date in this month.
      * @param {Date} date
      * @return {number} last date.

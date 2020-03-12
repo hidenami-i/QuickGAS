@@ -61,7 +61,7 @@ export abstract class RepositoryBase<TEntity extends EntityBase> {
 
         values.forEach(keyValues => {
 
-            // create empty EntitBase instance
+            // create empty EntityBase instance
             let newEntity: TEntity = new entityInstance();
             newEntity.setPropertyValues(keyValues);
 
