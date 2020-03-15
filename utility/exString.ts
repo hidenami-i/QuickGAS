@@ -35,7 +35,7 @@ export class ExString {
             return false;
         }
 
-        throw new Error("you must use 'true', 'TRUR', 'false', 'FALSE'");
+        throw new Error("you must use 'true', 'TRUE', 'false', 'FALSE'");
     }
 
     /**
