@@ -12,11 +12,16 @@ namespace DayOfWeek {
 
     const japaneseDayOfWeek: string[] = ["日", "月", "火", "水", "木", "金", "土"];
 
+    /**
+     * Converts day of week to japanese.
+     * @param {DayOfWeek | number} dayOfWeek
+     * @returns {string}
+     */
     export function toJapanese(dayOfWeek: DayOfWeek | number): string;
 
     /**
      * Converts day of week to japanese.
-     * @param {DayOfWeek} dayOfWeek
+     * @param {DayOfWeek | number} dayOfWeek
      * @returns {string}
      */
     export function toJapanese(dayOfWeek: DayOfWeek | number): string {
