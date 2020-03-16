@@ -3,6 +3,7 @@ import {SheetEntity} from "./sheetEntity";
 import {ExString} from "../utility/exString";
 import {ExError} from "../utility/exError";
 import {UI} from "./ui";
+import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 
 /**
  * Sheet Entity Repository.
@@ -44,6 +45,38 @@ export class SheetRepository extends RepositoryBase<SheetEntity> {
      */
     public insertAll(values: Array<{ [key: string]: any }>): void {
         ExError.throwNotImplemented();
+    }
+
+    /**
+     * Gets SheetEntity by sheet name.
+     * @param {string} sheetName
+     * @returns {SheetEntity}
+     */
+    public getBySheetName(sheetName: string): SheetEntity {
+        let result: SheetEntity | undefined;
+        this.tryFindBySheetName(sheetName, entity => {
+            result = entity;
+        });
+        ExError.throwIfUndefined(result);
+
+        // @ts-ignore
+        return result;
+    }
+
+    /**
+     * Gets SheetEntity match sheet name.
+     * @param {string} regexp
+     * @returns {SheetEntity}
+     */
+    public getMatchSheetName(regexp: string): SheetEntity {
+        let result: SheetEntity | undefined;
+        this.tryFindMatchSheetName(regexp, entity => {
+            result = entity;
+        });
+        ExError.throwIfUndefined(result);
+
+        // @ts-ignore
+        return result;
     }
 
     /**
@@ -121,6 +154,21 @@ export class SheetRepository extends RepositoryBase<SheetEntity> {
 
         ExError.throwIfUndefined(sheetEntity);
         // @ts-ignore
+        return sheetEntity;
+    }
+
+    /**
+     * Duplicates active sheet.
+     * @param {string} targetSheetName
+     * @param {string} newSheetName
+     * @returns {SheetEntity} duplicate sheet entity.
+     */
+    public duplicateSheet(targetSheetName: string, newSheetName: string): SheetEntity {
+        this.setActiveSheetBySheetName(targetSheetName);
+        const sheet: Sheet = this.spreadSheet.duplicateActiveSheet();
+        sheet.setName(newSheetName);
+        const sheetEntity: SheetEntity = new SheetEntity(this.count() + 1, sheet);
+        this.insert(sheetEntity);
         return sheetEntity;
     }
 

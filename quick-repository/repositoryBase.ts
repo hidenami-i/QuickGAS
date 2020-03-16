@@ -117,6 +117,15 @@ export abstract class RepositoryBase<TEntity extends EntityBase> {
     }
 
     /**
+     * Gets all entity by.
+     * @param {(value: TEntity, index: number, array: TEntity[]) => unknown, thisArg?: any} callbackFunction
+     * @returns {Array<TEntity>}
+     */
+    public findAllBy(callbackFunction: (value: TEntity, index: number, array: TEntity[]) => unknown, thisArg?: any): Array<TEntity> {
+        return this.entities.filter(callbackFunction);
+    }
+
+    /**
      * Deletes all entities.
      */
     public deleteAll(): void {
