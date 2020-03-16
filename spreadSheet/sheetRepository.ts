@@ -1,7 +1,8 @@
-import { RepositoryBase } from "../quick-repository/repositoryBase";
-import { SheetEntity } from "./sheetEntity";
-import { ExString } from "../utility/exString";
-import { ExError } from "../utility/exError";
+import {RepositoryBase} from "../quick-repository/repositoryBase";
+import {SheetEntity} from "./sheetEntity";
+import {ExString} from "../utility/exString";
+import {ExError} from "../utility/exError";
+import {UI} from "./ui";
 
 /**
  * Sheet Entity Repository.
@@ -15,6 +16,7 @@ export class SheetRepository extends RepositoryBase<SheetEntity> {
 
     /**
      * Initialize target spread sheet.
+     * All sheet initialize if targetSheetName parameter is null or empty, otherwise targetSheet initialize.
      * @param {SheetEntity} spreadSheet
      * @param {string} sheetName
      */
@@ -68,23 +70,81 @@ export class SheetRepository extends RepositoryBase<SheetEntity> {
 
     /**
      * Finds sheet by sheet name.
-     * @param {string} str partial match sheet name.
+     * @param {string} regexp partial match sheet name.
      * @param {SheetEntity} out
      */
-    public tryFindMatchSheetName(str: string, out: (entity: SheetEntity) => void): void {
+    public tryFindMatchSheetName(regexp: string, out: (entity: SheetEntity) => void): void {
         let result: SheetEntity | undefined;
         this.entities.forEach(x => {
-            if (x.sheet.getSheetName().match(str)) {
+            if (x.sheet.getSheetName().match(regexp)) {
                 result = x;
                 return;
             }
         });
 
         if (result == undefined) {
-            Logger.log(`No sheets with names containing ${str} were found.`)
+            Logger.log(`No sheets with names containing ${regexp} were found.`)
             return;
         }
 
         out(result);
+    }
+
+    /**
+     * Sets active sheet by sheet name.
+     * @param {string} sheetName
+     * @returns {SheetEntity}
+     */
+    public setActiveSheetBySheetName(sheetName: string): SheetEntity {
+        let sheetEntity: SheetEntity | undefined = undefined;
+        this.tryFindBySheetName(sheetName, entity => {
+            this.spreadSheet.setActiveSheet(entity.sheet);
+            sheetEntity = entity;
+        });
+
+        ExError.throwIfUndefined(sheetEntity);
+        // @ts-ignore
+        return sheetEntity;
+    }
+
+    /**
+     * Sets active sheet by sheet name.
+     * @param {string} regexp
+     * @returns {SheetEntity}
+     */
+    public setActiveSheetByMatchSheetName(regexp: string): SheetEntity {
+        let sheetEntity: SheetEntity | undefined = undefined;
+        this.tryFindMatchSheetName(regexp, entity => {
+            this.spreadSheet.setActiveSheet(entity.sheet);
+            sheetEntity = entity;
+        });
+
+        ExError.throwIfUndefined(sheetEntity);
+        // @ts-ignore
+        return sheetEntity;
+    }
+
+    /**
+     * Deletes sheet by sheet name.
+     * @param {string} sheetName
+     */
+    public deleteSheetBySheetName(sheetName: string): void {
+        if (UI.OkCancel("Confirm delete sheet", `Do you sure want to delete ${sheetName} sheet`)) {
+            return;
+        }
+
+        this.tryFindBySheetName(sheetName, entity => this.spreadSheet.deleteSheet(entity.sheet));
+    }
+
+    /**
+     * Deletes sheets.
+     * @param {string} regexp
+     */
+    public deleteSheets(regexp: string): void {
+        if (UI.OkCancel("Confirm delete sheets", "Do you sure want to delete sheets")) {
+            return;
+        }
+
+        this.findAll().filter(x => x.sheetName.match(regexp)).forEach(x => this.spreadSheet.deleteSheet(x.sheet));
     }
 }

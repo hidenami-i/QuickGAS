@@ -1,4 +1,3 @@
-import {ExString} from "../utility/exString";
 import GoogleCalendar = GoogleAppsScript.Calendar.Calendar;
 import {ExError} from "../utility/exError";
 

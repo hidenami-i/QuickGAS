@@ -1,10 +1,11 @@
-import { EntityBase } from "../quick-repository/entityBase";
-import { ExString } from "../utility/exString";
-import { ExArray } from "../utility/exArray";
-import { ExMath } from "../utility/exMath";
-import { ExError } from "../utility/exError";
+import {EntityBase} from "../quick-repository/entityBase";
+import {ExString} from "../utility/exString";
+import {ExArray} from "../utility/exArray";
+import {ExMath} from "../utility/exMath";
+import {ExError} from "../utility/exError";
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 import Range = GoogleAppsScript.Spreadsheet.Range;
+import Integer = GoogleAppsScript.Integer;
 
 /**
  * Entity class for each sheet.
@@ -27,6 +28,16 @@ export class SheetEntity extends EntityBase {
     readonly values: Array<Array<any>>;
 
     /**
+     * sheet name.
+     */
+    readonly sheetName: string;
+
+    /**
+     * sheet id.
+     */
+    readonly sheetId: Integer;
+
+    /**
      * valid transpose values.
      */
     private transposeValues: Array<Array<any>>;
@@ -39,6 +50,8 @@ export class SheetEntity extends EntityBase {
     constructor(id: number, sheet: Sheet) {
         super(id);
         this.sheet = sheet;
+        this.sheetName = sheet.getSheetName();
+        this.sheetId = sheet.getSheetId();
         this.dataRange = sheet.getDataRange();
         this.values = this.dataRange.getValues();
         this.transposeValues = [];
@@ -46,16 +59,16 @@ export class SheetEntity extends EntityBase {
 
     /**
      * --------------------------------------------------------------------------------
-     * 
+     *
      * Range
-     * 
+     *
      * --------------------------------------------------------------------------------
      */
 
-     /**
-      * Gets all data range.
-      * @returns {Range} all data range.
-      */
+    /**
+     * Gets all data range.
+     * @returns {Range} all data range.
+     */
     public getSafeRange(): Range;
 
     /**
@@ -259,18 +272,18 @@ export class SheetEntity extends EntityBase {
         let result: [number, number] = [0, 0];
 
         end:
-        for (let rowIndex = 0; rowIndex < this.values.length; rowIndex++) {
-            let rowValues = this.values[rowIndex];
-            for (let columnIndex = 0; columnIndex < rowValues.length; columnIndex++) {
-                let value = rowValues[columnIndex];
-                if (value === target) {
+            for (let rowIndex = 0; rowIndex < this.values.length; rowIndex++) {
+                let rowValues = this.values[rowIndex];
+                for (let columnIndex = 0; columnIndex < rowValues.length; columnIndex++) {
+                    let value = rowValues[columnIndex];
+                    if (value === target) {
 
-                    // normalize point
-                    result = [rowIndex + 1, columnIndex + 1];
-                    break end;
+                        // normalize point
+                        result = [rowIndex + 1, columnIndex + 1];
+                        break end;
+                    }
                 }
             }
-        }
 
         return result;
     }
@@ -335,8 +348,8 @@ export class SheetEntity extends EntityBase {
 
     /**
      * Sets vertical alignment.
-     * @param {GoogleAppsScript.Spreadsheet.Range} range 
-     * @param {VerticalAlignments} alignments 
+     * @param {GoogleAppsScript.Spreadsheet.Range} range
+     * @param {VerticalAlignments} alignments
      * @returns {GoogleAppsScript.Spreadsheet.Range}
      */
     public setVerticalAlignment(alignments: VerticalAlignments, range: Range): Range {
@@ -345,8 +358,8 @@ export class SheetEntity extends EntityBase {
 
     /**
      * Sets vertical alignment.
-     * @param {GoogleAppsScript.Spreadsheet.Range} range 
-     * @param {HorizontalAlignments} alignments 
+     * @param {GoogleAppsScript.Spreadsheet.Range} range
+     * @param {HorizontalAlignments} alignments
      * @returns {GoogleAppsScript.Spreadsheet.Range}
      */
     public setHorizontalAlignment(alignments: HorizontalAlignments, range: Range): Range {
@@ -405,9 +418,9 @@ export class SheetEntity extends EntityBase {
 
     /**
      * Sets all columns width.
-     * @param {number} cellWidth 
-     * @param {number} startColumnIndex 
-     * @param {number} width 
+     * @param {number} cellWidth
+     * @param {number} startColumnIndex
+     * @param {number} width
      * @returns {GoogleAppsScript.Spreadsheet.Sheet}
      */
     public setColumnsWidths(cellWidth: number, startColumnIndex: number = 1, width: number = 1): Sheet {
@@ -420,16 +433,16 @@ export class SheetEntity extends EntityBase {
 
     /**
      * Sets all rows height.
-     * @param {number} cellWidth 
+     * @param {number} cellWidth
      * @returns {GoogleAppsScript.Spreadsheet.Sheet}
      */
     public setRowsHeights(cellHeight: number): Sheet;
 
     /**
      * Sets all rows height.
-     * @param {number} cellWidth 
-     * @param {number} startColumnIndex 
-     * @param {number} width 
+     * @param {number} cellWidth
+     * @param {number} startColumnIndex
+     * @param {number} width
      * @returns {GoogleAppsScript.Spreadsheet.Sheet}
      */
     public setRowsHeights(cellHeight: number, startRowIndex: number = 0, height: number = 0): Sheet {
@@ -452,7 +465,7 @@ export class SheetEntity extends EntityBase {
     }
 
     /**
-     * 
+     *
      * @param sheetName
      */
     public isEqualSheetName(sheetName: string): boolean {
