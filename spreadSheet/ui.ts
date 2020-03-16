@@ -2,6 +2,7 @@ import SpreadsheetApp = GoogleAppsScript.Spreadsheet.SpreadsheetApp;
 import Ui = GoogleAppsScript.Base.Ui;
 import ButtonSet = GoogleAppsScript.Base.ButtonSet;
 import Button = GoogleAppsScript.Base.Button;
+import Menu = GoogleAppsScript.Base.Menu;
 
 /**
  * Spread sheet UI.
@@ -16,12 +17,18 @@ export class UI {
     /**
      * Gets GoogleAppsScript.Base.Ui.
      */
-    public static getUi() {
+    public static getUi(): Ui {
         if (this.uiCache == undefined || this.uiCache == null) {
             this.uiCache = SpreadsheetApp.getUi();
         }
 
         return this.uiCache;
+    }
+
+    public static createMenu(title: string, addMenuFn: (menu: Menu) => void) {
+        const menu: Menu = this.getUi().createMenu(title);
+        addMenuFn(menu);
+        menu.addToUi();
     }
 
     /**
