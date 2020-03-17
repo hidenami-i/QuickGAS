@@ -1,3 +1,5 @@
+import {ExArray} from "../utility/exArray";
+
 export class EntityBase {
 
     /**
@@ -37,11 +39,13 @@ export class EntityBase {
      * Converts property value to array.
      * @returns {any[]} [1,2,3,"tom"]
      */
-    public convertPropertyToArray(): any[] {
+    public convertPropertyToArray(excludeKeyList: Array<string> = new Array()): any[] {
         let result: any[] = [];
 
         Object.getOwnPropertyNames(this).forEach(key => {
-            result.push(Reflect.get(this, key));
+            if (!excludeKeyList.includes(key)) {
+                result.push(Reflect.get(this, key));
+            }
         });
 
         return result;
@@ -49,8 +53,8 @@ export class EntityBase {
 
     /**
      * Converts entity object to json.
-     * @param {(this: any, key: string, value: any) => any} replacer 
-     * @param {string | number} space 
+     * @param {(this: any, key: string, value: any) => any} replacer
+     * @param {string | number} space
      */
     public toJson(replacer?: (this: any, key: string, value: any) => any, space?: string | number): string {
         return JSON.stringify(this, replacer, space);

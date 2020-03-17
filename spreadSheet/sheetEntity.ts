@@ -183,7 +183,7 @@ export class SheetEntity extends EntityBase {
      */
     public getColumnRange(targetColumnIndex: number, startRowIndex = 1): Range {
         const index = Math.max(targetColumnIndex - 1, 0);
-        const values = this.transposeValues[index];
+        const values = this.getTransposeValues()[index];
         if (ExArray.isNullOrEmpty(values)) {
             ExError.throwIfNullOrUndefined(`[${index}] values is null or undefined.`);
         }
@@ -197,7 +197,7 @@ export class SheetEntity extends EntityBase {
      * @returns {GoogleAppsScript.Spreadsheet.Range}
      */
     public getColumnRangeA1(columnA1: string, startRowIndex = 1): Range {
-        return this.getSafeRange(startRowIndex, ExString.convertLetterToNumber(columnA1), this.transposeValues[Math.max(ExString.convertLetterToNumber(columnA1) - 1, 0)].length, 1);
+        return this.getSafeRange(startRowIndex, ExString.convertLetterToNumber(columnA1), this.getTransposeValues()[Math.max(ExString.convertLetterToNumber(columnA1) - 1, 0)].length, 1);
     }
 
     /**

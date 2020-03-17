@@ -192,11 +192,11 @@ export abstract class RepositoryBase<TEntity extends EntityBase> {
      * Converts entities to GoogleAppsScript.Spreadsheet.Range
      * @return {any[][]}
      */
-    public convertEntitiesToRange(): any[][] {
+    public convertEntitiesToRange(excludeKeyList: Array<string> = new Array()): any[][] {
         let result: any[][] = [];
 
         this.findAll().forEach(entity => {
-            result.push(entity.convertPropertyToArray());
+            result.push(entity.convertPropertyToArray(excludeKeyList));
         });
 
         return result;
