@@ -58,14 +58,6 @@ export class SheetEntity extends EntityBase {
     }
 
     /**
-     * --------------------------------------------------------------------------------
-     *
-     * Range
-     *
-     * --------------------------------------------------------------------------------
-     */
-
-    /**
      * Gets all data range.
      * @returns {Range} all data range.
      */
@@ -457,9 +449,9 @@ export class SheetEntity extends EntityBase {
      * Clear all cell content.
      * @param isClearCache true if
      */
-    public clearAllContent(isClearCache = false) {
-        this.sheet.getRange(1, 1, this.values.length, this.values[0].length).clearContent();
-        if (isClearCache) {
+    public clearAllContent(clearCache = false) {
+        this.getSafeRange(1, 1, this.values.length, this.values[0].length).clearContent();
+        if (clearCache) {
             ExArray.clear(this.values);
         }
     }
@@ -482,6 +474,11 @@ export class SheetEntity extends EntityBase {
     public toMapValues(headerRowIndex: number, dataStartRowIndex: number): Array<any> {
         let headers = this.values[Math.max(headerRowIndex - 1, 0)];
         let slice = this.values.slice(Math.max(dataStartRowIndex - 1, 0));
+        ExError.throwIfNull(headers);
+        if (ExArray.isNullOrEmpty(slice)) {
+            return new Array<any>();
+        }
+
         return ExArray.convertMultipleToMapArray(headers, slice);
     }
 
