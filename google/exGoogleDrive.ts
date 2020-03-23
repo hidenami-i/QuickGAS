@@ -4,6 +4,8 @@ import GoogleSpreadSheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
 import DriveFolder = GoogleAppsScript.Drive.Folder;
 import DriveFile = GoogleAppsScript.Drive.File;
 import {ExString} from "../utility/exString";
+import File = GoogleAppsScript.Drive.File;
+import {ExGoogleSheet} from "./exGoogleSheet";
 
 /**
  * GoogleDrive extension class.
@@ -48,11 +50,24 @@ export class ExGoogleDrive {
     }
 
     /**
+     * Copies file to Google Drive folder.
+     * @param {string} sourceFileId
+     * @param {string} destinationFolderId
+     * @param {string} newFileName
+     * @returns {GoogleAppsScript.Drive.File}
+     */
+    public static copy(sourceFileId: string, destinationFolderId: string, newFileName: string): File {
+        const sourceFile = DriveApp.getFileById(sourceFileId);
+        const destinationFolder = DriveApp.getFolderById(destinationFolderId);
+        return sourceFile.makeCopy(newFileName, destinationFolder);
+    }
+
+    /**
      * Creates drive file on GoogleDrive.
      * @param {string} driveFileId
      * @param {string} driveFolderId
      */
-    private static create(driveFileId: string, driveFolderId: string) {
+    private static create(driveFileId: string, driveFolderId: string): void {
         if (ExString.isNullOrEmpty(driveFileId) || ExString.isNullOrEmpty(driveFolderId)) {
             ExError.throwIfNull("driveFileId or driveFolderId is null or empty.");
         }
@@ -64,5 +79,4 @@ export class ExGoogleDrive {
         driveFolder.addFile(driveFile);
         DriveApp.getRootFolder().removeFile(driveFile);
     }
-
 }
