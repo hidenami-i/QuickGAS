@@ -5,7 +5,7 @@ import DriveFolder = GoogleAppsScript.Drive.Folder;
 import DriveFile = GoogleAppsScript.Drive.File;
 import {ExString} from "../utility/exString";
 import File = GoogleAppsScript.Drive.File;
-import {ExGoogleSheet} from "./exGoogleSheet";
+import {ExIO} from "../utility/exIO";
 
 /**
  * GoogleDrive extension class.
@@ -16,10 +16,11 @@ export class ExGoogleDrive {
      * Creates GoogleSpreadSheet on GoogleDrive.
      * @param {string} spreadSheetName
      * @param {string} driveFolderId
+     * @returns {GoogleSpreadSheet}
      */
     public static createSpreadSheet(spreadSheetName: string, driveFolderId: string): GoogleSpreadSheet {
         let spreadsheet: GoogleSpreadSheet = SpreadsheetApp.create(spreadSheetName);
-        this.create(spreadsheet.getId(), driveFolderId);
+        this.addFile(spreadsheet.getId(), driveFolderId);
         return spreadsheet;
     }
 
@@ -27,11 +28,29 @@ export class ExGoogleDrive {
      * Creates GoogleForm on GoogleDrive.
      * @param {string} formTitle
      * @param {string} driveFolderId
+     * @returns {GoogleForm}
      */
     public static createForm(formTitle: string, driveFolderId: string): GoogleForm {
         let form: GoogleForm = FormApp.create(formTitle);
-        this.create(form.getId(), driveFolderId);
+        this.addFile(form.getId(), driveFolderId);
         return form;
+    }
+
+    /**
+     * Creates file.
+     * @param {string} driveFolderId
+     * @param {string} fileName
+     * @param {string} content
+     * @returns {File}
+     */
+    public static createFile(driveFolderId: string, fileName: string, content: string): File {
+        ExError.throwIfNull(driveFolderId);
+        ExError.throwIfNull(fileName);
+        ExError.throwIfNull(content);
+        if (ExIO.hasNotExtension(fileName)) {
+            new Error("fileName parameter has not extension.")
+        }
+        return DriveApp.getFolderById(driveFolderId).createFile(fileName, content);
     }
 
     /**
@@ -67,7 +86,7 @@ export class ExGoogleDrive {
      * @param {string} driveFileId
      * @param {string} driveFolderId
      */
-    private static create(driveFileId: string, driveFolderId: string): void {
+    private static addFile(driveFileId: string, driveFolderId: string): void {
         if (ExString.isNullOrEmpty(driveFileId) || ExString.isNullOrEmpty(driveFolderId)) {
             ExError.throwIfNull("driveFileId or driveFolderId is null or empty.");
         }

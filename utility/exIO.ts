@@ -17,6 +17,15 @@ export class ExIO {
     }
 
     /**
+     * Indicates whether the specified file name has extension.
+     * @param {string} fileName
+     * @returns {boolean} true if the fileName parameter has not extension. otherwise false.
+     */
+    public static hasNotExtension(fileName: string): boolean {
+        return !this.hasExtension(fileName);
+    }
+
+    /**
      * Gets file extension.
      * @param {string} fileName 
      * @returns {string} extension.
