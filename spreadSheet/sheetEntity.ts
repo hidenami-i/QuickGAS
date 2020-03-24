@@ -213,7 +213,7 @@ export class SheetEntity extends EntityBase {
      * let value = getValue(1, "A");
      */
     public getValueByA1(rowIndex: number, columnA1: string): any {
-        return this.getValue(Math.max(rowIndex - 1, 0), Math.max(ExString.convertLetterToNumber(columnA1), 0));
+        return this.getValue(Math.max(rowIndex, 0), Math.max(ExString.convertLetterToNumber(columnA1), 0));
     }
 
     /**

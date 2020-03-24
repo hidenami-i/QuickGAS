@@ -41,7 +41,7 @@ export class ExString {
     /**
      * Converts snake str parameter to upper camel str.
      * @param {string} value
-     * @return {string} upper camle string value.
+     * @return {string} upper camel string value.
      * @example two_apple → TwoApple
      */
     public static convertSnakeToUpperCamel(value: string): string {
@@ -54,7 +54,7 @@ export class ExString {
     /**
      * Converts snake str parameter to lower camel str.
      * @param {string} value
-     * @return {string} lower camle string value.
+     * @return {string} lower camel string value.
      * @example two_apple → twoApple
      */
     public static convertSnakeToLowerCamel(value: string): string {
