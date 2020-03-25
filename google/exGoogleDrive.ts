@@ -43,14 +43,14 @@ export class ExGoogleDrive {
      * @param {string} content
      * @returns {File}
      */
-    public static createFile(driveFolderId: string, fileName: string, content: string): File {
-        ExError.throwIfNull(driveFolderId);
+    public static createFile(googleDriveFolderId: string, fileName: string, content: string): File {
+        ExError.throwIfNull(googleDriveFolderId);
         ExError.throwIfNull(fileName);
         ExError.throwIfNull(content);
         if (ExIO.hasNotExtension(fileName)) {
             new Error("fileName parameter has not extension.")
         }
-        return DriveApp.getFolderById(driveFolderId).createFile(fileName, content);
+        return DriveApp.getFolderById(googleDriveFolderId).createFile(fileName, content);
     }
 
     /**
@@ -61,7 +61,7 @@ export class ExGoogleDrive {
         let folder: GoogleAppsScript.Drive.Folder = DriveApp.getFolderById(googleDriveFolderId);
         ExError.throwIfNullOrUndefined(folder);
         let files: GoogleAppsScript.Drive.FileIterator = folder.getFiles();
-        while (files.hasNext) {
+        while (files.hasNext()) {
             const file = files.next();
             DriveApp.removeFile(file);
             folder.removeFile(file);
