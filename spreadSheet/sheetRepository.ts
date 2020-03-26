@@ -195,4 +195,28 @@ export class SheetRepository extends RepositoryBase<SheetEntity> {
 
         this.findAll().filter(x => x.sheetName.match(regexp)).forEach(x => this.spreadSheet.deleteSheet(x.sheet));
     }
+
+    /**
+     * Sorts the elements of a sequence in order by sheetName parameter using a specified comparer.
+     */
+    public orderBySheetName(): void {
+        this.findAll().sort((a, b) => {
+            if (a.sheetName > b.sheetName) {
+                return 1;
+            }
+            return -1;
+        });
+    }
+
+    /**
+     * Sorts the elements of a sequence in order by descending sheetName parameter using a specified comparer.
+     */
+    public orderByDescendingSheetName(): void {
+        this.findAll().sort((a, b) => {
+            if (a.sheetName > b.sheetName) {
+                return -1;
+            }
+            return 1;
+        });
+    }
 }
