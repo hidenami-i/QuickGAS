@@ -39,7 +39,7 @@ export class ExString {
     }
 
     /**
-     * Converts snake str parameter to upper camel str.
+     * Converts snake case string parameter to upper camel string.
      * @param {string} value
      * @return {string} upper camel string value.
      * @example two_apple → TwoApple
@@ -52,7 +52,7 @@ export class ExString {
     }
 
     /**
-     * Converts snake str parameter to lower camel str.
+     * Converts snake case string parameter to lower camel string.
      * @param {string} value
      * @return {string} lower camel string value.
      * @example two_apple → twoApple

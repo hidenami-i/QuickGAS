@@ -6,6 +6,7 @@ import DriveFile = GoogleAppsScript.Drive.File;
 import {ExString} from "../utility/exString";
 import File = GoogleAppsScript.Drive.File;
 import {ExIO} from "../utility/exIO";
+import Folder = GoogleAppsScript.Drive.Folder;
 
 /**
  * GoogleDrive extension class.
@@ -37,7 +38,7 @@ export class ExGoogleDrive {
     }
 
     /**
-     * Creates file.
+     * Creates file on GoogleDrive.
      * @param {string} driveFolderId
      * @param {string} fileName
      * @param {string} content
@@ -51,6 +52,38 @@ export class ExGoogleDrive {
             new Error("fileName parameter has not extension.")
         }
         return DriveApp.getFolderById(googleDriveFolderId).createFile(fileName, content);
+    }
+
+    /**
+     * Creates folder on GoogleDrive.
+     * @param googleDriveFolderId
+     * @param folderName
+     */
+    public static createFolder(googleDriveFolderId: string, folderName: string): Folder {
+        ExError.throwIfNull(googleDriveFolderId);
+        ExError.throwIfNull(folderName);
+        if (ExString.isNullOrEmpty(googleDriveFolderId)) {
+            return DriveApp.getRootFolder().createFolder(folderName);
+        }
+        return DriveApp.getFolderById(googleDriveFolderId).createFolder(folderName);
+    }
+
+    /**
+     * Indicates whether a file with the specified file name exists on the GoogleDrive.
+     * @param {string} folderName
+     * @returns {boolean}
+     */
+    public static existFolder(googleDriveFolderId: string, folderName: string): boolean {
+        let result = false;
+        const folders = DriveApp.getFolderById(googleDriveFolderId).getFolders();
+        while (folders.hasNext()) {
+            const folder = folders.next();
+            if (folder.getName() == folderName) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 
     /**

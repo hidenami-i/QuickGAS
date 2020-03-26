@@ -86,4 +86,18 @@ export class UI {
         const button: Button = ui.alert(title, prompt, ButtonSet.OK_CANCEL)
         return button == ui.Button.CANCEL;
     }
+
+    /**
+     * Ok or Cancel input alert.
+     * @param {string} title
+     * @param {string} prompt
+     * @constructor
+     */
+    public static InputOkCancel(title: string = "", prompt: string = ""): string {
+        const input: string = Browser.inputBox(title, prompt, Browser.Buttons.OK_CANCEL);
+        if (input == "cancel") {
+            return "";
+        }
+        return input;
+    }
 }
