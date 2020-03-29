@@ -55,7 +55,7 @@ export class UI {
      */
     public static YesNo(title: string = "", prompt: string = ""): boolean {
         const ui = this.getUi();
-        const button: Button = ui.alert(title, prompt, ButtonSet.YES_NO)
+        const button: Button = ui.alert(title, prompt, ui.ButtonSet.YES_NO)
         return button == ui.Button.NO;
     }
 
@@ -83,8 +83,36 @@ export class UI {
      */
     public static OkCancel(title: string = "", prompt: string = ""): boolean {
         const ui = this.getUi();
-        const button: Button = ui.alert(title, prompt, ButtonSet.OK_CANCEL)
+        const button: Button = ui.alert(title, prompt, ui.ButtonSet.OK_CANCEL)
         return button == ui.Button.CANCEL;
+    }
+
+    /**
+     * Ok alert
+     * @param {string} prompt
+     * @returns {boolean}
+     */
+    public static Ok(prompt: string): boolean;
+
+    /**
+     * Ok alert
+     * @param {string} title
+     * @param {string} prompt
+     * @returns {boolean}
+     */
+    public static Ok(title: string, prompt: string): boolean;
+
+
+    /**
+     * Ok alert
+     * @param {string} title
+     * @param {string} prompt
+     * @returns {boolean}
+     */
+    public static Ok(title: string = "", prompt: string = ""): boolean {
+        const ui = this.getUi();
+        const button: Button = ui.alert(title, prompt, ui.ButtonSet.OK)
+        return button == ui.Button.OK;
     }
 
     /**
@@ -93,11 +121,24 @@ export class UI {
      * @param {string} prompt
      * @constructor
      */
-    public static InputOkCancel(title: string = "", prompt: string = ""): string {
-        const input: string = Browser.inputBox(title, prompt, Browser.Buttons.OK_CANCEL);
-        if (input == "cancel") {
+    public static InputBoxOkCancel(title: string = "", prompt: string = ""): string {
+        const message: string = Browser.inputBox(title, prompt, Browser.Buttons.OK_CANCEL);
+        if (message == "cancel") {
             return "";
         }
-        return input;
+        return message;
+    }
+
+    /**
+     * Simple message alert.
+     * @param {string} title
+     * @param {string} prompt
+     */
+    public static MessageBox(title: string = "", prompt: string = ""): string {
+        const message: string = Browser.msgBox(title, prompt, Browser.Buttons.OK);
+        if (message == "ok") {
+            return "";
+        }
+        return message;
     }
 }
