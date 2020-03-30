@@ -2,11 +2,11 @@ import {ExError} from "../utility/exError";
 import GoogleForm = GoogleAppsScript.Forms.Form;
 import GoogleSpreadSheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
 import DriveFolder = GoogleAppsScript.Drive.Folder;
-import DriveFile = GoogleAppsScript.Drive.File;
 import {ExString} from "../utility/exString";
 import File = GoogleAppsScript.Drive.File;
 import {ExIO} from "../utility/exIO";
 import Folder = GoogleAppsScript.Drive.Folder;
+import {ExGoogleSheet} from "./exGoogleSheet";
 
 /**
  * GoogleDrive extension class.
@@ -69,6 +69,61 @@ export class ExGoogleDrive {
     }
 
     /**
+     * Finds all SpreadSheet on GoogleDrive.
+     * @param {string} googleDriveFolderId
+     * @returns {Array<File>} SpreadSheet Files.
+     */
+    public static findAllSpreadSheets(googleDriveFolderId: string): Array<File> {
+        return this.findAllFilesBy(googleDriveFolderId, file => {
+            DriveMimeType.isSpreadSheet(file.getMimeType())
+        })
+    }
+
+    /**
+     * Finds all Form on GoogleDrive.
+     * @param {string} googleDriveFolderId
+     * @returns {Array<File>} Form Files.
+     */
+    public static findAllForms(googleDriveFolderId: string): Array<File> {
+        return this.findAllFilesBy(googleDriveFolderId, file => {
+            DriveMimeType.isForm(file.getMimeType())
+        })
+    }
+
+    /**
+     * Finds all GoogleAppsScript.Drive.File;
+     * @param {GoogleAppsScript.Drive.File} googleDriveFolderId
+     * @param {(value: File, index: number, array: File[])} callbackFunction
+     * @param {any} thisArg
+     */
+    public static findAllFilesBy(googleDriveFolderId: string, callbackFunction: (value: File, index: number, array: File[]) => unknown, thisArg?: any): Array<File> {
+        return this.findAllFiles(googleDriveFolderId).filter(callbackFunction)
+    }
+
+    /**
+     * Finds all GoogleAppsScript.Drive.File;
+     * @param {GoogleAppsScript.Drive.File} googleDriveFolderId
+     * @returns {Array<File>>}
+     */
+    public static findAllFiles(googleDriveFolderId: string): Array<File> {
+        const folder: GoogleAppsScript.Drive.Folder = DriveApp.getFolderById(googleDriveFolderId);
+        ExError.throwIfNullOrUndefined(folder);
+        const files: GoogleAppsScript.Drive.FileIterator = folder.getFiles();
+        const result: Array<File> = new Array<File>();
+        while (files.hasNext()) {
+            result.push(files.next());
+        }
+        return result;
+    }
+
+    // public static findFoldersAndSubFolders(googleDriveFolderId: string) {
+    //     let result: Array<Folder> = new Array<Folder>();
+    //     const targetFolder: GoogleAppsScript.Drive.Folder = DriveApp.getFolderById(googleDriveFolderId);
+    //     ExError.throwIfNullOrUndefined(targetFolder);
+    //     result.push(targetFolder);
+    // }
+
+    /**
      * Indicates whether a file with the specified file name exists on the GoogleDrive.
      * @param {string} folderName
      * @returns {boolean}
@@ -124,7 +179,7 @@ export class ExGoogleDrive {
             ExError.throwIfNull("driveFileId or driveFolderId is null or empty.");
         }
 
-        let driveFile: DriveFile = DriveApp.getFileById(driveFileId);
+        let driveFile: File = DriveApp.getFileById(driveFileId);
         ExError.throwIfNullOrUndefined(driveFile);
         let driveFolder: DriveFolder = DriveApp.getFolderById(driveFolderId);
         ExError.throwIfNullOrUndefined(driveFolder);
