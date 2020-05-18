@@ -11,7 +11,7 @@ import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 export class SheetRepository extends RepositoryBase<SheetEntity> {
 
     /**
-     * cache spread sheet.
+     * Spread sheet cache.
      */
     spreadSheet: GoogleAppsScript.Spreadsheet.Spreadsheet;
 
