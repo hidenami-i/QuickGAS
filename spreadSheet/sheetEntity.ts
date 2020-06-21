@@ -6,6 +6,7 @@ import {ExError} from "../utility/exError";
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 import Range = GoogleAppsScript.Spreadsheet.Range;
 import Integer = GoogleAppsScript.Integer;
+import {ExNumber} from "../utility/exNumber";
 
 /**
  * Entity class for each sheet.
@@ -472,8 +473,8 @@ export class SheetEntity extends EntityBase {
      * @returns [{id=1, name="a"}]
      */
     public toMapValues(headerRowIndex: number, dataStartRowIndex: number): Array<any> {
-        let headers = this.values[Math.max(headerRowIndex - 1, 0)];
-        let slice = this.values.slice(Math.max(dataStartRowIndex - 1, 0));
+        const headers = this.values[Math.max(headerRowIndex - 1, 0)];
+        const slice = this.values.slice(Math.max(dataStartRowIndex - 1, 0),);
         ExError.throwIfNull(headers);
         if (ExArray.isNullOrEmpty(slice)) {
             return new Array<any>();

@@ -68,8 +68,8 @@ export class ExArray {
         }
 
         for (let index = 0; index < values.length; index++) {
-            let temp = values[index];
-            let randomIndex = Math.floor(Math.random() * values.length);
+            const temp = values[index];
+            const randomIndex = Math.floor(Math.random() * values.length);
             values[index] = values[randomIndex];
             values[randomIndex] = temp;
         }
@@ -92,8 +92,9 @@ export class ExArray {
 
         values.forEach((rowValues) => {
             let map: any = {};
+
             rowValues.forEach((rowData, rowIndex) => {
-                let header = headers[rowIndex];
+                const header = headers[rowIndex];
                 if (ExString.isNotNullOrEmpty(header)) {
                     if (ExString.isNullOrEmpty(rowData)) {
                         rowData = "";
