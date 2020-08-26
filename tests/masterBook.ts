@@ -17,8 +17,8 @@ export namespace MasterBook {
             super();
         }
 
-        public insertAll(values: Array<{ [key: string]: any }>): void {
-            super.internalInsertAll(values, Entity);
+        public addAll(values: Array<{ [key: string]: any }>): void {
+            super.internalAddAll(values, Entity);
         }
 
         public tryFindByAuthor(author: string, out: (entity: Entity) => void): void {

@@ -19,8 +19,8 @@ export namespace MasterFruit {
             super();
         }
 
-        public insertAll(values: Array<{ [key: string]: any }>): void {
-            super.internalInsertAll(values, Entity);
+        public addAll(values: Array<{ [key: string]: any }>): void {
+            super.internalAddAll(values, Entity);
         }
     }
 }

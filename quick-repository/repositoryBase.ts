@@ -5,59 +5,40 @@ import {ExArray} from "../utility/exArray";
  * Repository base abstract class.
  */
 export abstract class RepositoryBase<TEntity extends EntityBase> {
-
     protected entities: Array<TEntity>;
-
     protected constructor() {
         this.entities = new Array<TEntity>();
     }
-
     /**
      * Inserts entity data.
      * @param {TEntity} entity
      */
-    public insert(entity: TEntity): void {
+    public add(entity: TEntity): void {
 
         if (entity == null) {
             throw new Error("entity is null.");
         }
 
         if (this.entities.find(x => x.id == entity.id)) {
-            Logger.log(`already exist id = [${entity.id}]`)
+            console.log(`already exist id = [${entity.id}]`)
             return;
         }
 
         this.entities.push(entity);
     }
 
-    // public updateById(id: number, entity: TEntity): void {
-
-    //     if (entity == null) {
-    //         throw new Error("entity is null.");
-    //     }
-
-    //     let targetEntity = this.entities.find(x => x.id == id);
-
-    //     if (targetEntity == null) {
-    //         Logger.log(`target entity is null.`)
-    //         return;
-    //     }
-
-    //     targetEntity.setValues(entity.toJson());
-    // }
-
     /**
      * Inserts multiple data.
      * @param {Array<{ [key: string]: any }>} values [{"id":1,"name":"Tom"},{"id":2,"name":"Ann"}]
      */
-    public abstract insertAll(values: Array<{ [key: string]: any }>): void;
+    public abstract addAll(values: Array<{ [key: string]: any }>): void;
 
     /**
      * Inserts multiple data.
      * @param {Array<{ [key: string]: any }} values
      * @param {(new (...args: any) => TEntity)} entityInstance
      */
-    protected internalInsertAll(values: Array<{ [key: string]: any }>, entityInstance: (new (...args: any) => TEntity)): void {
+    protected internalAddAll(values: Array<{ [key: string]: any }>, entityInstance: (new (...args: any) => TEntity)): void {
 
         values.forEach(keyValues => {
 
@@ -65,7 +46,6 @@ export abstract class RepositoryBase<TEntity extends EntityBase> {
             let newEntity: TEntity = new entityInstance();
             newEntity.setPropertyValues(keyValues);
 
-            // @ts-ignore
             this.entities.push(newEntity);
         });
     }
@@ -201,4 +181,20 @@ export abstract class RepositoryBase<TEntity extends EntityBase> {
 
         return result;
     }
+
+    // public updateById(id: number, entity: TEntity): void {
+
+    //     if (entity == null) {
+    //         throw new Error("entity is null.");
+    //     }
+
+    //     let targetEntity = this.entities.find(x => x.id == id);
+
+    //     if (targetEntity == null) {
+    //         Logger.log(`target entity is null.`)
+    //         return;
+    //     }
+
+    //     targetEntity.setValues(entity.toJson());
+    // }
 }

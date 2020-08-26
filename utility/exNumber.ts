@@ -11,7 +11,7 @@ export class ExNumber {
      * @returns {boolean} true if the value parameter is null or undefined; otherwise, false.
      */
     public static isNullOrUndefined(value: number): boolean {
-        return value == undefined || value == null || ExString.isNullOrEmpty(value.toString());
+        return value === undefined || value == null || ExString.isNullOrEmpty(value.toString());
     }
 
     /**

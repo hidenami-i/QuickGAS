@@ -28,7 +28,7 @@ export class SheetRepository extends RepositoryBase<SheetEntity> {
 
         if (ExString.isNullOrEmpty(targetSheetName)) {
             const sheets = this.spreadSheet.getSheets();
-            sheets.forEach((v, i) => this.insert(new SheetEntity(i, v)));
+            sheets.forEach((v, i) => this.add(new SheetEntity(i, v)));
             return;
         }
 
@@ -37,13 +37,13 @@ export class SheetRepository extends RepositoryBase<SheetEntity> {
             throw new Error(`can not find [${targetSheetName}] sheet.`);
         }
 
-        this.insert(new SheetEntity(0, sheet));
+        this.add(new SheetEntity(0, sheet));
     }
 
     /**
      * unused method.
      */
-    public insertAll(values: Array<{ [key: string]: any }>): void {
+    public addAll(values: Array<{ [key: string]: any }>): void {
         ExError.throwNotImplemented();
     }
 
@@ -168,7 +168,7 @@ export class SheetRepository extends RepositoryBase<SheetEntity> {
         const sheet: Sheet = this.spreadSheet.duplicateActiveSheet();
         sheet.setName(newSheetName);
         const sheetEntity: SheetEntity = new SheetEntity(this.count() + 1, sheet);
-        this.insert(sheetEntity);
+        this.add(sheetEntity);
         return sheetEntity;
     }
 

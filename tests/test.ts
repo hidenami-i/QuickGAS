@@ -18,7 +18,7 @@ function testDatabase() {
         let headers = sheetEntity.getRowValues(1);
         let data = sheetEntity.values.slice(3);
         let values = ExArray.convertMultipleToMapArray(headers, data);
-        db.masterFruit.insertAll(values);
+        db.masterFruit.addAll(values);
     });
 
     db.masterBook.findAll().forEach(x => Logger.log(x));
