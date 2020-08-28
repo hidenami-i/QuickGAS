@@ -5,22 +5,25 @@ import {ExArray} from "../utility/exArray";
  * Repository base abstract class.
  */
 export abstract class RepositoryBase<TEntity extends EntityBase> {
+
     protected entities: Array<TEntity>;
+
     protected constructor() {
         this.entities = new Array<TEntity>();
     }
+
     /**
-     * Inserts entity data.
-     * @param {TEntity} entity
+     * Adds the entity data to the array of entity data managed by the Repository.
+     * @param {EntityBase} entity Target entity data.
      */
     public add(entity: TEntity): void {
 
         if (entity == null) {
-            throw new Error("entity is null.");
+            throw new Error("The entity data to be added is null or undefined.");
         }
 
         if (this.entities.find(x => x.id == entity.id)) {
-            console.log(`already exist id = [${entity.id}]`)
+            console.log(`The data for id[{${entity.id}] already exists.`)
             return;
         }
 
@@ -28,13 +31,13 @@ export abstract class RepositoryBase<TEntity extends EntityBase> {
     }
 
     /**
-     * Inserts multiple data.
+     * Adds the multiple data to the array of entity data managed by the Repository.
      * @param {Array<{ [key: string]: any }>} values [{"id":1,"name":"Tom"},{"id":2,"name":"Ann"}]
      */
     public abstract addAll(values: Array<{ [key: string]: any }>): void;
 
     /**
-     * Inserts multiple data.
+     * Adds the multiple data to the array of entity data managed by the Repository.
      * @param {Array<{ [key: string]: any }} values
      * @param {(new (...args: any) => TEntity)} entityInstance
      */
@@ -51,9 +54,9 @@ export abstract class RepositoryBase<TEntity extends EntityBase> {
     }
 
     /**
-     * Finds entity by id.
-     * @param {number} id entity id.
-     * @param {(entity: TEntity) => void)} out
+     * Search for entity data in the array of entity data managed by the repository.
+     * @param {number} id The id of the entity data to be searched.
+     * @param {(entity: EntityBase) => void)} out
      */
     public tryFindById(id: number, out: (entity: TEntity) => void): void {
         this.entities.forEach(x => {
