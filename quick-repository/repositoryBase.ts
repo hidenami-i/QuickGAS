@@ -186,18 +186,18 @@ export abstract class RepositoryBase<TEntity extends EntityBase> {
     }
 
     // public updateById(id: number, entity: TEntity): void {
-
+    //
     //     if (entity == null) {
     //         throw new Error("entity is null.");
     //     }
-
+    //
     //     let targetEntity = this.entities.find(x => x.id == id);
-
+    //
     //     if (targetEntity == null) {
     //         Logger.log(`target entity is null.`)
     //         return;
     //     }
-
+    //
     //     targetEntity.setValues(entity.toJson());
     // }
 }
