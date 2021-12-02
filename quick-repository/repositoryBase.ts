@@ -1,5 +1,5 @@
-import {EntityBase} from "./entityBase";
-import {ExArray} from "../utility/exArray";
+import {EntityBase} from './entityBase';
+import {ExArray} from '../utility/exArray';
 
 /**
  * Repository base abstract class.
@@ -19,11 +19,11 @@ export abstract class RepositoryBase<TEntity extends EntityBase> {
     public add(entity: TEntity): void {
 
         if (entity == null) {
-            throw new Error("The entity data to be added is null or undefined.");
+            throw new Error('The entity data to be added is null or undefined.');
         }
 
         if (this.entities.find(x => x.id == entity.id)) {
-            console.log(`The data for id[{${entity.id}] already exists.`)
+            console.log(`The data for id[{${entity.id}] already exists.`);
             return;
         }
 
@@ -164,7 +164,7 @@ export abstract class RepositoryBase<TEntity extends EntityBase> {
      * @param {string} json
      */
     public fromJson(json: string): void {
-        if (json == null || json === "") {
+        if (json == null || json === '') {
             return;
         }
 
